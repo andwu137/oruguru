@@ -1,6 +1,7 @@
 RAYLIB ?= ./vendor/raylib/src/
 LIBRARIES = -lraylib
 CCFLAGS = -std=c99 -Wall -Wpedantic
+CCFILES = src/oruguru.c -o build/oruguru-dev
 
 ifeq ($(OS),Windows_NT)
     LIBRARIES += -lgdi32 -lwinmm
@@ -15,17 +16,24 @@ else
     endif
 endif
 
-all: build
-	echo "$(LIBRARIES)"
+all: build dev
+
+dev:
 	cc\
-		src/oruguru.c\
-		-o build/oruguru-dev\
+		$(CCFILES)\
 		-O1 $(CCFLAGS)\
 		-I $(RAYLIB) -L $(RAYLIB)\
 		$(LIBRARIES)
 
+release:
+	cc\
+		$(CCFILES)\
+		-O3 $(CCFLAGS)\
+		-I $(RAYLIB) -L $(RAYLIB)\
+		$(LIBRARIES)
+
 clean:
-	rm build/*
+	rm -f build/*
 
 build:
 	mkdir -p build
