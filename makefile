@@ -4,16 +4,16 @@ CCFLAGS = -std=c99 -Wall -Wpedantic
 CCFILES = src/oruguru.c -o build/oruguru-dev
 
 ifeq ($(OS),Windows_NT)
-    LIBRARIES += -lgdi32 -lwinmm
+	LIBRARIES += -lgdi32 -lwinmm
 else
-    UNAME_S := $(shell uname -s)
-    ifeq ($(UNAME_S),Linux)
-        LIBRARIES += -lGL -lm -lpthread -ldl -lrt -lX11
-    endif
-    ifeq ($(UNAME_S),Darwin)
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		LIBRARIES += -lGL -lm -lpthread -ldl -lrt -lX11
+	endif
+	ifeq ($(UNAME_S),Darwin)
 		# WARN: uhhhhhh
 		ERROR := $(error no support for darwin machines)
-    endif
+	endif
 endif
 
 all: build dev
