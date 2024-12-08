@@ -27,18 +27,23 @@ ifeq ($(BUILD_MODE),RELEASE)
 endif
 
 # Targets
-.PHONY: all build builddir clean raylib_desktop
+.PHONY: all build builddir clean vendor_clean
 
 all: build
 
 build: build_dir
 ifneq ($(PLATFORM),)
-	cd vendor/raylib/src && make PLATFORM=$(PLATFORM)
+	cd vendor/raylib/src &&\
+		make PLATFORM=$(PLATFORM) RAYLIB_BUILD_MODE=$(BUILD_MODE)
 endif
 	cc $(CCFILES) $(CCFLAGS) -I $(RAYLIB) -L $(RAYLIB) $(LIBRARIES)
 
 clean:
 	rm -f build/*
+
+vendor_clean:
+	cd vendor/raylib/src &&\
+		make clean
 
 build_dir:
 	mkdir -p build
