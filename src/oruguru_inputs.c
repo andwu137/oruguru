@@ -8,15 +8,33 @@
 /* PROTOTYPES */
 void draw_inputs(int input_flags);
 void input_map_read(struct InputMap *inputMap, int *inputFlags);
+void input_map_init(size_t initCap, struct InputMap *inputMap);
 void input_map_default(size_t initCap, struct InputMap *inputMap);
+void input_map_push(struct InputMap *inputMap, struct InputMapping im);
 
 /* FUNCTIONS */
-void input_map_default(size_t initCap, struct InputMap *inputMap) {
+void input_map_init(size_t initCap, struct InputMap *inputMap) {
   inputMap->size = 0, inputMap->capacity = initCap,
   inputMap->map = calloc(initCap, sizeof(*inputMap->map));
   if (inputMap->map == NULL) {
     perror("inputMap: failed to alloc");
     abort();
+  }
+}
+
+void input_map_default(size_t initCap, struct InputMap *inputMap) {
+  input_map_init(1 << 4, inputMap);
+  {
+    input_map_push(inputMap,
+                   ((struct InputMapping){.key = KEY_W, .input = INPUT_UP}));
+    input_map_push(inputMap,
+                   (struct InputMapping){.key = KEY_A, .input = INPUT_LEFT});
+    input_map_push(inputMap,
+                   (struct InputMapping){.key = KEY_S, .input = INPUT_DOWN});
+    input_map_push(inputMap,
+                   (struct InputMapping){.key = KEY_D, .input = INPUT_RIGHT});
+    input_map_push(inputMap, (struct InputMapping){.key = KEY_SPACE,
+                                                   .input = INPUT_SELECT});
   }
 }
 

@@ -13,18 +13,6 @@ int main(int argc, char *argv[]) {
   int inputFlags;
   struct InputMap inputMap;
   input_map_default(1 << 4, &inputMap);
-  {
-    input_map_push(&inputMap,
-                   ((struct InputMapping){.key = KEY_W, .input = INPUT_UP}));
-    input_map_push(&inputMap,
-                   (struct InputMapping){.key = KEY_A, .input = INPUT_LEFT});
-    input_map_push(&inputMap,
-                   (struct InputMapping){.key = KEY_S, .input = INPUT_DOWN});
-    input_map_push(&inputMap,
-                   (struct InputMapping){.key = KEY_D, .input = INPUT_RIGHT});
-    input_map_push(&inputMap, (struct InputMapping){.key = KEY_SPACE,
-                                                    .input = INPUT_SELECT});
-  }
 
   InitWindow(screenWidth, screenHeight, "oruguru");
   SetTargetFPS(60);
