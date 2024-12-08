@@ -16,6 +16,8 @@ else
 	endif
 endif
 
+.PHONY: all dev release build clean raylib_desktop
+
 all: build dev
 
 dev:
