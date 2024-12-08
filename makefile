@@ -41,6 +41,5 @@ build:
 	mkdir -p build
 
 raylib_desktop:
-	pushd vendor/raylib/src &&\
-	make PLATFORM=PLATFORM_DESKTOP &&\
-	popd
+	cd vendor/raylib/src &&\
+	make PLATFORM=PLATFORM_DESKTOP
