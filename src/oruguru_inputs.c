@@ -7,7 +7,7 @@
 
 /* PROTOTYPES */
 void draw_inputs(int input_flags);
-void input_map_read(struct InputMap *inputMap, int *inputFlags);
+void input_map_read(struct InputMap *inputMap, long long *inputFlags);
 void input_map_init(size_t initCap, struct InputMap *inputMap);
 void input_map_default(size_t initCap, struct InputMap *inputMap);
 void input_map_push(struct InputMap *inputMap, struct InputMapping im);
@@ -52,7 +52,7 @@ void input_map_push(struct InputMap *inputMap, struct InputMapping im) {
   inputMap->map[inputMap->size++] = im;
 }
 
-void input_map_read(struct InputMap *inputMap, int *inputFlags) {
+void input_map_read(struct InputMap *inputMap, long long *inputFlags) {
   *inputFlags = 0;
   for (size_t i = 0; i < inputMap->size; i++) {
     if (IsKeyPressed(inputMap->map[i].key)) {
