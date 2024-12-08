@@ -43,12 +43,12 @@ void input_map_read(struct InputMap *inputMap, int *inputFlags) {
   }
 }
 
-void draw_inputs(int inputFlags) {
+void input_flags_debug_draw(int inputFlags) {
   float radius = 10;
   int x = 0;
   int y = 0;
   Color color;
-  for (char i = 0; i < 5; i++) { // WARN: this is an 'unsafe' loop
+  for (char i = 0; i < sizeof(int) * 8; i++) {
     color = inputFlags & (1 << i) ? RED : BLUE;
     DrawCircle(x + radius + 2 * radius * i, y + radius, radius, color);
   }

@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
       ClearBackground(RAYWHITE);
       DrawText("oruguru", 190, 200, 20, LIGHTGRAY);
 
-      draw_inputs(inputFlags);
+      input_flags_debug_draw(inputFlags);
     }
     EndDrawing();
   }
