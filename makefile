@@ -3,6 +3,7 @@ LIBRARIES = -lraylib
 CCFLAGS = -std=c99 -Wall -Wpedantic
 CCFILES = src/oruguru.c -o build/oruguru-dev
 
+# Machine Dependent
 ifeq ($(OS),Windows_NT)
 	LIBRARIES += -lgdi32 -lwinmm
 else
@@ -16,30 +17,28 @@ else
 	endif
 endif
 
-.PHONY: all dev release build clean raylib_desktop
+# Build Options
+ifeq ($(BUILD_MODE),DEBUG)
+    CFLAGS += -O1 -g -D_DEBUG
+endif
 
-all: build dev
+ifeq ($(BUILD_MODE),RELEASE)
+	CFLAGS += -O3
+endif
 
-dev:
-	cc\
-		$(CCFILES)\
-		-O1 $(CCFLAGS)\
-		-I $(RAYLIB) -L $(RAYLIB)\
-		$(LIBRARIES)
+# Targets
+.PHONY: all build builddir clean raylib_desktop
 
-release:
-	cc\
-		$(CCFILES)\
-		-O3 $(CCFLAGS)\
-		-I $(RAYLIB) -L $(RAYLIB)\
-		$(LIBRARIES)
+all: build
+
+build: build_dir
+ifneq ($(PLATFORM),)
+	cd vendor/raylib/src && make PLATFORM=$(PLATFORM)
+endif
+	cc $(CCFILES) $(CCFLAGS) -I $(RAYLIB) -L $(RAYLIB) $(LIBRARIES)
 
 clean:
 	rm -f build/*
 
-build:
+build_dir:
 	mkdir -p build
-
-raylib_desktop:
-	cd vendor/raylib/src &&\
-	make PLATFORM=PLATFORM_DESKTOP
