@@ -8,7 +8,11 @@ struct Effect {
   float speed;       // 1 = normal, 2 = twice as fast
   Color color;
 
-  enum { EFFECT_RING, EFFECT_SCREEN_BORDER, EFFECT_TRANSLATE } type;
+  enum {
+    EFFECT_RING,
+    EFFECT_SCREEN_BORDER,
+    EFFECT_TRANSLATE
+  } type;
 
   union {
     struct {
@@ -41,7 +45,8 @@ struct Effect {
   } end;
 };
 
-void spawn_effect(struct Effect *e, int type, Vector2 pos, Color color) {
+void
+spawn_effect(struct Effect *e, int type, Vector2 pos, Color color) {
   e->pos = pos;
   e->completion = 0;
   e->speed = 1;
@@ -62,7 +67,8 @@ void spawn_effect(struct Effect *e, int type, Vector2 pos, Color color) {
   }
 }
 
-void draw_effect(struct Effect *e) {
+void
+draw_effect(struct Effect *e) {
   if (e->completion >= 1) {
     e->completion = 1;
     return;
