@@ -1,0 +1,19 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-std=c99",
+      "-Wall",
+      "-Wextra",
+      "-I",
+      "./vendor/raylib/src/",
+      "-o",
+      "build/oruguru-dev",
+      "src/oruguru.c"
+    ],
+    "directory": "/home/ufedora/personal/og",
+    "file": "/home/ufedora/personal/og/src/oruguru.c",
+    "output": "/home/ufedora/personal/og/build/oruguru-dev"
+  }
+]

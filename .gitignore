@@ -55,4 +55,7 @@ dkms.conf
 vgcore.*
 
 # Build
-build/**/*
+build/
+
+# clangd
+.cache/
