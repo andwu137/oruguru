@@ -1,7 +1,8 @@
 #include <raylib.h>
 #include <raymath.h>
 
-int main(int argc, char *argv[]) {
+int
+main(int argc, char *argv[]) {
   const int screenWidth = 800;
   const int screenHeight = 450;
 
