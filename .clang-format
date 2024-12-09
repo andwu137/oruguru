@@ -8,7 +8,9 @@ AllowShortLoopsOnASingleLine: false
 
 IndentCaseLabels: false
 
+BinPackArguments: false
+BinPackParameters: false
+
 BraceWrapping:
   AfterControlStatement: MultiLine
-
 ---
