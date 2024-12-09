@@ -103,6 +103,82 @@ draw_effect(struct Effect *e) {
   e->completion += 0.1 * e->speed;
 }
 
+void
+draw_judgeline(Vector2 center) {
+  // Outline
+  int height = 60;
+  int width = 5;
+
+  Rectangle rec1 = {center.x - width / 2, center.y - height / 2, width, height};
+  DrawRectangleRec(rec1, BLACK);
+}
+
+void
+draw_circle(Vector2 center, int radius) {
+  Color palette[] = {GetColor(0x39B54AFF), // Green
+                     GetColor(0x00A3E0FF), // Blue
+                     GetColor(0xF15A29FF), // Orange
+                     GetColor(0xFBB03BFF), // Yellow
+                     GetColor(0xD5006DFF), // Magenta
+                     GetColor(0x98DEA1FF)};
+
+  Color lightColour = palette[0];
+  lightColor.r += 40;
+  lightColor.b += 40;
+  lightColor.g += 40;
+  lightColor.a += 40;
+
+  // Make an array of Vector
+  // Up circle
+  DrawCircleV(center, radius, BLACK);
+  DrawCircleV(center, radius / 1.20, palette[0]);
+}
+
+void
+draw_visual_helper() {
+  int length = 300;
+  int thickness = 5;
+  int height = 40; // for end bars
+
+  int square = length / 8; // for spacing
+  int radius = height / 2;
+
+  Vector2 start, end;
+  int startPoint[] = {GetScreenWidth() / 2 - length / 2,
+                      GetScreenHeight() / 1.20};
+  int endPoint[] = {GetScreenWidth() / 2 + length / 2,
+                    GetScreenHeight() / 1.20};
+
+  // Main line
+  start.x = startPoint[0];
+  start.y = startPoint[1];
+  end.x = endPoint[0];
+  end.y = endPoint[1];
+  DrawLineEx(start, end, thickness, BLACK);
+
+  // Left end bar
+  start.y = startPoint[1] - height / 2;
+  end.y = startPoint[1] + height / 2;
+  end.x = startPoint[0];
+  DrawLineEx(start, end, thickness, BLACK);
+
+  // Right end bar
+  start.x = endPoint[0];
+  end.x = start.x;
+  DrawLineEx(start, end, thickness, BLACK);
+
+  // Circles
+  Vector2 center = {startPoint[0] + square, startPoint[1]};
+
+  for (int i = 0; i < 4; i++) {
+    // DrawCircleV(center, radius, BLACK);
+    // DrawCircleV(center, radius / 1.20, WHITE);
+    draw_circle(center, radius);
+
+    center.x += square * 2;
+  }
+}
+
 int
 main(int argc, char *argv[]) {
   const int screenWidth = 800;
@@ -125,6 +201,7 @@ main(int argc, char *argv[]) {
     {
       ClearBackground(DARKGRAY);
       DrawText("oruguru", 190, 200, 20, LIGHTGRAY);
+      draw_visual_helper();
       draw_effect(&e1);
       draw_effect(&e2);
     }
