@@ -2,6 +2,21 @@
 #include <raymath.h>
 #include <stdbool.h>
 
+union EffectData {
+  struct {
+    int innerRadius;
+    int outerRadius;
+  } ring;
+
+  struct {
+    int thickness;
+  } screenBorder;
+
+  struct {
+    Vector2 position;
+  } translate;
+};
+
 struct Effect {
   Vector2 pos;
   double completion; // range [0, 1]
@@ -14,35 +29,8 @@ struct Effect {
     EFFECT_TRANSLATE
   } type;
 
-  union {
-    struct {
-      int innerRadius;
-      int outerRadius;
-    } ring;
-
-    struct {
-      float thickness;
-    } screenBorder;
-
-    struct {
-      Vector2 position;
-    } translate;
-  } start;
-
-  union {
-    struct {
-      int innerRadius;
-      int outerRadius;
-    } ring;
-
-    struct {
-      int thickness;
-    } screenBorder;
-
-    struct {
-      Vector2 position;
-    } translate;
-  } end;
+  union EffectData start;
+  union EffectData end;
 };
 
 void
@@ -54,16 +42,16 @@ spawn_effect(struct Effect *e, int type, Vector2 pos, Color color) {
   e->type = type;
 
   switch (type) {
-  case EFFECT_RING:
+  case EFFECT_RING: {
     e->start.ring.innerRadius = 5;
     e->start.ring.outerRadius = 10;
     e->end.ring.innerRadius = 30;
     e->end.ring.outerRadius = 30;
-    break;
-  case EFFECT_SCREEN_BORDER:
+  } break;
+  case EFFECT_SCREEN_BORDER: {
     e->start.screenBorder.thickness = 10;
     e->end.screenBorder.thickness = 3;
-    break;
+  } break;
   }
 }
 
@@ -83,8 +71,7 @@ draw_effect(struct Effect *e) {
     float currOuter = e->start.ring.outerRadius + outerDiff * e->completion;
 
     DrawRing(e->pos, currInner, currOuter, 0, 360.0f, 0, e->color);
-    break;
-  }
+  } break;
   case EFFECT_SCREEN_BORDER: {
     float thickDiff =
         e->end.screenBorder.thickness - e->start.screenBorder.thickness;
@@ -93,11 +80,9 @@ draw_effect(struct Effect *e) {
     Rectangle rec = {
         .height = GetScreenHeight(), .width = GetScreenWidth(), .x = 0, .y = 0};
     DrawRectangleLinesEx(rec, currThick, e->color);
-    break;
-  }
+  } break;
   case EFFECT_TRANSLATE: {
-    break;
-  }
+  } break;
   }
 
   e->completion += 0.1 * e->speed;
@@ -122,7 +107,7 @@ draw_circle(Vector2 center, int radius) {
                      GetColor(0xD5006DFF), // Magenta
                      GetColor(0x98DEA1FF)};
 
-  Color lightColour = palette[0];
+  Color lightColor = palette[0];
   lightColor.r += 40;
   lightColor.b += 40;
   lightColor.g += 40;
