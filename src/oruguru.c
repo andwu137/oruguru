@@ -4,10 +4,9 @@
 #include <raymath.h>
 #include <stdbool.h>
 
-/* PROTOTYPES */
-
 /* FUNCTIONS */
-int main(int argc, char *argv[]) {
+int
+main(int argc, char *argv[]) {
   const int screenWidth = 800;
   const int screenHeight = 450;
   long long inputFlags;
