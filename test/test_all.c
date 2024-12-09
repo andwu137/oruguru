@@ -3,7 +3,8 @@
 
 #include <stdio.h>
 
-int test() {
+int
+test() {
   puts("Testing");
 
   return 0;

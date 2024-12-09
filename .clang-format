@@ -1,0 +1,16 @@
+---
+AlwaysBreakAfterReturnType: All # BreakAfterReturnType: All
+
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+IndentCaseLabels: false
+
+BinPackArguments: false
+BinPackParameters: false
+
+BraceWrapping:
+  AfterControlStatement: MultiLine
+---
