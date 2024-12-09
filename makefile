@@ -1,6 +1,6 @@
 RAYLIB ?= ./vendor/raylib/src/
 LIBRARIES = -lraylib
-CCFLAGS = -std=c99 -Wall -Wpedantic
+CCFLAGS = -std=c99 -Wall -Wextra
 CCFILES = src/oruguru.c -o build/oruguru-dev
 
 # Machine Dependent
