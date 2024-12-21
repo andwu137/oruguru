@@ -1,3 +1,4 @@
+#include <math.h>
 #include <raylib.h>
 #include <raymath.h>
 #include <stdbool.h>
@@ -90,7 +91,6 @@ draw_effect(struct Effect *e) {
 
 void
 draw_judgeline(Vector2 center) {
-  // Outline
   int height = 60;
   int width = 5;
 
@@ -99,26 +99,67 @@ draw_judgeline(Vector2 center) {
 }
 
 void
-draw_circle(Vector2 center, int radius) {
-  Color palette[] = {GetColor(0x39B54AFF), // Green
-                     GetColor(0x00A3E0FF), // Blue
-                     GetColor(0xF15A29FF), // Orange
-                     GetColor(0xFBB03BFF), // Yellow
-                     GetColor(0xD5006DFF), // Magenta
-                     GetColor(0x98DEA1FF)};
+draw_circle_input(Vector2 center, int radius, int i /*, enum InputType i*/) {
+  Vector2 angles[12] = {
+      // UP ARROW
+      {.x = 0, .y = 1},
+      {.x = -sqrt(3) / 2, .y = -1 / 2},
+      {.x = sqrt(3) / 2, .y = -1 / 2},
+      // DOWN ARROW
+      {.x = 0, .y = -1},
+      {.x = -sqrt(3) / 2, .y = 1 / 2},
+      {.x = sqrt(3) / 2, .y = 1 / 2},
+      // LEFT ARROW
+      {.x = -1, .y = 0},
+      {.x = 1 / 2, .y = -sqrt(3) / 2},
+      {.x = 1 / 2, .y = sqrt(3) / 2},
+      // RIGHT ARROW
+      {.x = 1, .y = 0},
+      {.x = 1 / 2, .y = -sqrt(3) / 2},
+      {.x = 1 / 2, .y = sqrt(3) / 2},
+  };
+  Color palette[6] = {
+      GetColor(0x39B54AFF), // GREEN
+      GetColor(0xF15A29FF), // ORANGE
+      GetColor(0x00A3E0FF), // BLUE
+      GetColor(0xD5006DFF), // MAGENTA
+      GetColor(0xFBB03BFF), // YELLOW
+  };
+  // Up = 0, Down = 1, Left = 2, Right = 3
+  Vector2 *angle = &(angles[3 * (i % 4)]);
+  Vector2 points[3];
 
-  Color lightColor = palette[0];
-  lightColor.r += 40;
-  lightColor.b += 40;
-  lightColor.g += 40;
-  lightColor.a += 40;
+  points[0] = (Vector2){.x = center.x + radius * angle->x,
+                        .y = center.y + radius * angle->y};
+  points[1] = (Vector2){.x = center.x + radius * (angle + 1)->x,
+                        .y = center.y + radius * (angle + 1)->y};
+  points[2] = (Vector2){.x = center.x + radius * (angle + 2)->x,
+                        .y = center.y + radius * (angle + 2)->y};
+  if (i < 2) {
+    // Vertical
+    points[0].y = points[0].y - 3 * angle->y;
+    points[1].y = points[1].y - 9 * angle->y;
+    points[2].y = points[2].y - 9 * angle->y;
 
-  // Make an array of Vector
-  // Up circle
-  DrawCircleV(center, radius, BLACK);
-  DrawCircleV(center, radius / 1.20, palette[0]);
+  } else if (i < 4) {
+    // Horizontal
+    points[0].x = points[0].x - 3 * angle->x;
+    points[1].x = points[1].x - 9 * angle->x;
+    points[2].x = points[2].x - 9 * angle->x;
+  } else {
+    // Space input
+    points[0].y = center.y;
+  }
+
+  DrawCircleV(center, radius / 1.20, palette[i]);
+  DrawLineEx(points[0], points[1], 3, WHITE);
+  DrawLineEx(points[0], points[2], 3, WHITE);
+  DrawLineEx(points[1], points[2], 3, WHITE);
+  DrawRing(center, radius - 2.5, radius, 0, 360, 0, BLACK);
 }
 
+// TODO(Daria): This function needs to accept player's input
+// (e.g. UP, DOWN, LEFT, RIGHT, <Space>) maybe as an array.
 void
 draw_visual_helper() {
   int length = 300;
@@ -133,32 +174,34 @@ draw_visual_helper() {
                       GetScreenHeight() / 1.20};
   int endPoint[] = {GetScreenWidth() / 2 + length / 2,
                     GetScreenHeight() / 1.20};
+  Vector2 center = {startPoint[0] + square, startPoint[1]};
 
-  // Main line
+  // MAIN LINE
   start.x = startPoint[0];
   start.y = startPoint[1];
   end.x = endPoint[0];
   end.y = endPoint[1];
   DrawLineEx(start, end, thickness, BLACK);
 
-  // Left end bar
+  // LEFT END BAR
   start.y = startPoint[1] - height / 2;
   end.y = startPoint[1] + height / 2;
   end.x = startPoint[0];
   DrawLineEx(start, end, thickness, BLACK);
 
-  // Right end bar
+  // RIGHT END BAR
   start.x = endPoint[0];
   end.x = start.x;
   DrawLineEx(start, end, thickness, BLACK);
 
-  // Circles
-  Vector2 center = {startPoint[0] + square, startPoint[1]};
-
   for (int i = 0; i < 4; i++) {
+    // NOTE(Daria): change this after merging with input detection
+
+    // Empty Circle
     // DrawCircleV(center, radius, BLACK);
     // DrawCircleV(center, radius / 1.20, WHITE);
-    draw_circle(center, radius);
+
+    draw_circle_input(center, radius, i);
 
     center.x += square * 2;
   }
