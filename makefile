@@ -23,7 +23,7 @@ ifeq ($(BUILD_MODE),DEBUG)
 endif
 
 ifeq ($(BUILD_MODE),RELEASE)
-	CFLAGS += -O3
+	CFLAGS += -O2
 endif
 
 # Targets
