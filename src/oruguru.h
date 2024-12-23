@@ -18,8 +18,10 @@
 #endif
 
 // Inputs
+/* The type that states the size of InputType */
 typedef uint8_t input_type;
 
+/* all game recognized actions */
 enum InputType {
   INPUT_UP = 1 << 0,
   INPUT_LEFT = 1 << 1,
@@ -28,11 +30,13 @@ enum InputType {
   INPUT_SELECT = 1 << 4,
 };
 
+/* to map key -> input */
 struct InputMapping {
   KeyboardKey key;
   enum InputType input;
 };
 
+/* contains all mappings for game */
 struct InputMap {
   size_t size;
   size_t capacity;
@@ -40,6 +44,7 @@ struct InputMap {
 };
 
 // Moves
+/* creates a move little side first */
 #define moves_new(a, b, c, d)                                                  \
   ((d) << (3 * 8 * sizeof(input_type))) |                                      \
       ((c) << (2 * 8 * sizeof(input_type))) |                                  \
@@ -56,7 +61,8 @@ struct InputMap {
   dbg_print("%3d %3d %3d %3d\n", ((input_type *)m)[0], ((input_type *)m)[1],   \
             ((input_type *)m)[2], ((input_type *)m)[3]);
 
-const uint32_t VALID_MOVES[] = {
+/* global for all game moves */
+static const uint32_t VALID_MOVES[] = {
     // Move Right
     moves_new(INPUT_SELECT, INPUT_SELECT, INPUT_SELECT, INPUT_RIGHT),
     moves_new(INPUT_SELECT, INPUT_SELECT, INPUT_RIGHT, INPUT_RIGHT),
@@ -68,6 +74,7 @@ const uint32_t VALID_MOVES[] = {
     moves_new(INPUT_SELECT, INPUT_LEFT, INPUT_LEFT, INPUT_LEFT),
 };
 
+/* move is a set of inputs */
 struct Move {
   uint8_t curr;
   union {
