@@ -6,18 +6,18 @@
 #include <stdlib.h>
 
 /* PROTOTYPES */
-void
-draw_inputs(int input_flags);
-void
-input_map_read(struct InputMap *inputMap, long long *inputFlags);
-void
-input_map_init(size_t initCap, struct InputMap *inputMap);
-void
-input_map_default(size_t initCap, struct InputMap *inputMap);
-void
-input_map_push(struct InputMap *inputMap, struct InputMapping im);
+void input_flags_debug_draw(uint32_t inputFlags);
+void input_map_read(struct InputMap *inputMap, long long *inputFlags);
+void input_map_init(size_t initCap, struct InputMap *inputMap);
+void input_map_default(size_t initCap, struct InputMap *inputMap);
+void input_map_push(struct InputMap *inputMap, struct InputMapping im);
+
+void valid_moves_default(uint32_t *validMoves);
+uint8_t get_move(uint32_t inputFlags);
+int8_t valid_move(struct Moves *moves);
 
 /* FUNCTIONS */
+// INPUTS
 void
 input_map_init(size_t initCap, struct InputMap *inputMap) {
   inputMap->size = 0, inputMap->capacity = initCap,
@@ -30,7 +30,7 @@ input_map_init(size_t initCap, struct InputMap *inputMap) {
 
 void
 input_map_default(size_t initCap, struct InputMap *inputMap) {
-  input_map_init(1 << 4, inputMap);
+  input_map_init(initCap, inputMap);
   {
     input_map_push(inputMap,
                    ((struct InputMapping){.key = KEY_W, .input = INPUT_UP}));
@@ -40,9 +40,8 @@ input_map_default(size_t initCap, struct InputMap *inputMap) {
                    (struct InputMapping){.key = KEY_S, .input = INPUT_DOWN});
     input_map_push(inputMap,
                    (struct InputMapping){.key = KEY_D, .input = INPUT_RIGHT});
-    input_map_push(
-        inputMap,
-        (struct InputMapping){.key = KEY_SPACE, .input = INPUT_SELECT});
+    input_map_push(inputMap, (struct InputMapping){.key = KEY_SPACE,
+                                                   .input = INPUT_SELECT});
   }
 }
 
@@ -72,15 +71,38 @@ input_map_read(struct InputMap *inputMap, long long *inputFlags) {
 }
 
 void
-input_flags_debug_draw(int inputFlags) {
+input_flags_debug_draw(uint32_t inputFlags) {
   float radius = 10;
-  int x = 0;
-  int y = 0;
+  uint16_t x = 0;
+  uint16_t y = 0;
   Color color;
-  for (char i = 0; i < sizeof(int) * 8; i++) {
+  for (uint8_t i = 0; i < sizeof(inputFlags) * 8; i++) {
     color = inputFlags & (1 << i) ? RED : BLUE;
     DrawCircle(x + radius + 2 * radius * i, y + radius, radius, color);
   }
+}
+
+// MOVES
+uint8_t
+get_move(uint32_t inputFlags) {
+  for (uint8_t i = 0; i < sizeof(inputFlags) * 8; i++) {
+    if (inputFlags == (((uint32_t)1) << i)) {
+      return inputFlags;
+    }
+  }
+
+  return false;
+}
+
+int8_t
+valid_move(struct Moves *moves) {
+  for (uint8_t i = 0; i < sizeof(VALID_MOVES) / sizeof(*VALID_MOVES); i++) {
+    if (VALID_MOVES[i] == moves->move) {
+      return i;
+    }
+  }
+
+  return -1;
 }
 
 #endif // !ORUGURU_INPUTS_C
