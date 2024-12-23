@@ -125,7 +125,7 @@ draw_circle_input(Vector2 center, int radius, int i /*, enum InputType i*/) {
       GetColor(0xD5006DFF), // MAGENTA
       GetColor(0xFBB03BFF), // YELLOW
   };
-  // Up = 0, Down = 1, Left = 2, Right = 3
+  // Up = 0, Down = 1, Left = 2, Right = 3, Space = 4
   Vector2 *angle = &(angles[3 * (i % 4)]);
   Vector2 points[3];
 
@@ -235,9 +235,9 @@ main(int argc, char *argv[]) {
     }
     EndDrawing();
 
-    // Temporary
+    // Temporary - Demo
     if (e1.completion >= 1) {
-      spawn_effect(&e1, EFFECT_RING, v, YELLOW);
+      spawn_effect(&e1, EFFECT_RING, v, WHITE);
     }
     if (e2.completion >= 1) {
       spawn_effect(&e2, EFFECT_SCREEN_BORDER, v, RED);
