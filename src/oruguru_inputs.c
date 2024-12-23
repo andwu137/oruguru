@@ -6,14 +6,14 @@
 #include <stdlib.h>
 
 /* PROTOTYPES */
-void input_flags_debug_draw(uint32_t inputFlags);
-void input_map_read(struct InputMap *inputMap, long long *inputFlags);
+void input_flags_debug_draw(input_type inputFlags);
+void input_map_read(struct InputMap *inputMap, input_type *inputFlags);
 void input_map_init(size_t initCap, struct InputMap *inputMap);
 void input_map_default(size_t initCap, struct InputMap *inputMap);
 void input_map_push(struct InputMap *inputMap, struct InputMapping im);
 
-void valid_moves_default(uint32_t *validMoves);
-uint8_t get_move(uint32_t inputFlags);
+void valid_moves_default(input_type *validMoves);
+uint8_t get_move(input_type inputFlags);
 int8_t valid_move(struct Moves *moves);
 
 /* FUNCTIONS */
@@ -61,7 +61,7 @@ input_map_push(struct InputMap *inputMap, struct InputMapping im) {
 }
 
 void
-input_map_read(struct InputMap *inputMap, long long *inputFlags) {
+input_map_read(struct InputMap *inputMap, input_type *inputFlags) {
   *inputFlags = 0;
   for (size_t i = 0; i < inputMap->size; i++) {
     if (IsKeyPressed(inputMap->map[i].key)) {
@@ -71,7 +71,7 @@ input_map_read(struct InputMap *inputMap, long long *inputFlags) {
 }
 
 void
-input_flags_debug_draw(uint32_t inputFlags) {
+input_flags_debug_draw(input_type inputFlags) {
   float radius = 10;
   uint16_t x = 0;
   uint16_t y = 0;
@@ -83,10 +83,10 @@ input_flags_debug_draw(uint32_t inputFlags) {
 }
 
 // MOVES
-uint8_t
-get_move(uint32_t inputFlags) {
+input_type
+get_move(input_type inputFlags) {
   for (uint8_t i = 0; i < sizeof(inputFlags) * 8; i++) {
-    if (inputFlags == (((uint32_t)1) << i)) {
+    if (inputFlags == (((input_type)1) << i)) {
       return inputFlags;
     }
   }

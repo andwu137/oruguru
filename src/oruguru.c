@@ -10,7 +10,7 @@ main(int argc, char *argv[]) {
   const uint16_t screenWidth = 800;
   const uint16_t screenHeight = 450;
 
-  long long inputFlags;
+  input_type inputFlags;
   struct InputMap inputMap;
   input_map_default(1 << 4, &inputMap);
 
