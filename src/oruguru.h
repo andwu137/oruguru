@@ -53,8 +53,8 @@ struct InputMap {
   }
 
 #define moves_print(m)                                                         \
-  printf("%3d %3d %3d %3d\n", ((input_type *)m)[0], ((input_type *)m)[1],      \
-         ((input_type *)m)[2], ((input_type *)m)[3]);
+  dbg_print("%3d %3d %3d %3d\n", ((input_type *)m)[0], ((input_type *)m)[1],   \
+            ((input_type *)m)[2], ((input_type *)m)[3]);
 
 const uint32_t VALID_MOVES[] = {
     // Move Right
