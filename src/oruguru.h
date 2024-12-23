@@ -44,17 +44,10 @@ struct InputMap {
 };
 
 // Moves
-/* creates a move little side first */
-#define moves_new(a, b, c, d)                                                  \
-  ((d) << (3 * 8 * sizeof(input_type))) |                                      \
-      ((c) << (2 * 8 * sizeof(input_type))) |                                  \
-      ((b) << (1 * 8 * sizeof(input_type))) |                                  \
-      ((a) << (0 * 8 * sizeof(input_type)))
-
 #define moves_reset(m)                                                         \
   {                                                                            \
     m.curr = 0;                                                                \
-    m.move = 0;                                                                \
+    m.fullInputs = 0;                                                          \
   }
 
 #define moves_print(m)                                                         \
@@ -62,19 +55,21 @@ struct InputMap {
             ((input_type *)m)[2], ((input_type *)m)[3]);
 
 /* global for all game moves */
-static const uint32_t VALID_MOVES[] = {
+static const uint8_t VALID_MOVES[][4] = {
     // Move Right
-    moves_new(INPUT_SELECT, INPUT_SELECT, INPUT_SELECT, INPUT_RIGHT),
-    moves_new(INPUT_SELECT, INPUT_SELECT, INPUT_RIGHT, INPUT_RIGHT),
-    moves_new(INPUT_SELECT, INPUT_RIGHT, INPUT_RIGHT, INPUT_RIGHT),
+    {INPUT_SELECT, INPUT_SELECT, INPUT_SELECT, INPUT_RIGHT},
+    {INPUT_SELECT, INPUT_SELECT, INPUT_RIGHT, INPUT_RIGHT},
+    {INPUT_SELECT, INPUT_RIGHT, INPUT_RIGHT, INPUT_RIGHT},
 
     // Move Left
-    moves_new(INPUT_SELECT, INPUT_SELECT, INPUT_SELECT, INPUT_LEFT),
-    moves_new(INPUT_SELECT, INPUT_SELECT, INPUT_LEFT, INPUT_LEFT),
-    moves_new(INPUT_SELECT, INPUT_LEFT, INPUT_LEFT, INPUT_LEFT),
+    {INPUT_SELECT, INPUT_SELECT, INPUT_SELECT, INPUT_LEFT},
+    {INPUT_SELECT, INPUT_SELECT, INPUT_LEFT, INPUT_LEFT},
+    {INPUT_SELECT, INPUT_LEFT, INPUT_LEFT, INPUT_LEFT},
 };
 
-/* move is a set of inputs */
+/* move is a set of inputs
+ * the inputs are stored first in at head
+ */
 struct Move {
   uint8_t curr;
   union {

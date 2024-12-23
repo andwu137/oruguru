@@ -97,7 +97,7 @@ get_move(input_type inputFlags) {
 int8_t
 valid_move(struct Move *move) {
   for (uint8_t i = 0; i < sizeof(VALID_MOVES) / sizeof(*VALID_MOVES); i++) {
-    if (VALID_MOVES[i] == move->fullInputs) {
+    if (*((uint32_t *)VALID_MOVES[i]) == move->fullInputs) {
       return i;
     }
   }
