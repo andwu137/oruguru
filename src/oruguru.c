@@ -50,7 +50,7 @@ spawn_effect(struct Effect *e, int type, Vector2 pos, Color color) {
     e->end.ring.outerRadius = 30;
   } break;
   case EFFECT_SCREEN_BORDER: {
-    e->start.screenBorder.thickness = 10;
+    e->start.screenBorder.thickness = 8;
     e->end.screenBorder.thickness = 3;
   } break;
   }
@@ -78,8 +78,10 @@ draw_effect(struct Effect *e) {
         e->end.screenBorder.thickness - e->start.screenBorder.thickness;
     float currThick =
         e->start.screenBorder.thickness + thickDiff * e->completion;
-    Rectangle rec = {
-        .height = GetScreenHeight(), .width = GetScreenWidth(), .x = 0, .y = 0};
+    Rectangle rec = {.height = GetScreenHeight() - 10,
+                     .width = GetScreenWidth() - 10,
+                     .x = 5,
+                     .y = 5};
     DrawRectangleLinesEx(rec, currThick, e->color);
   } break;
   case EFFECT_TRANSLATE: {
@@ -218,8 +220,8 @@ main(int argc, char *argv[]) {
 
   Vector2 v = {.x = 100, .y = 100};
   struct Effect e1, e2;
-  spawn_effect(&e1, EFFECT_RING, v, YELLOW);
-  spawn_effect(&e2, EFFECT_SCREEN_BORDER, v, RED);
+  spawn_effect(&e1, EFFECT_RING, v, WHITE);
+  spawn_effect(&e2, EFFECT_SCREEN_BORDER, v, WHITE);
 
   while (!WindowShouldClose()) {
     // Update
@@ -240,7 +242,7 @@ main(int argc, char *argv[]) {
       spawn_effect(&e1, EFFECT_RING, v, WHITE);
     }
     if (e2.completion >= 1) {
-      spawn_effect(&e2, EFFECT_SCREEN_BORDER, v, RED);
+      spawn_effect(&e2, EFFECT_SCREEN_BORDER, v, WHITE);
     }
   }
 
