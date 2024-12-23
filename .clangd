@@ -2,4 +2,5 @@ CompileFlags:
   Add: [
     -Wall,
     -Wextra,
+    -DDEBUG,
   ]
