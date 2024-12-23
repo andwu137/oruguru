@@ -31,9 +31,7 @@ main(int argc, char *argv[]) {
       ClearBackground(RAYWHITE);
       DrawText("oruguru", 190, 200, 20, LIGHTGRAY);
 
-#ifdef DEBUG
-      printf("Move #%d\n", moves.curr);
-#endif
+      dbg_print("Move #%d\n", moves.curr);
       input_flags_debug_draw(inputFlags);
       if ((tempMove = get_move(inputFlags)) != 0) {
         moves.moves[moves.curr++] = tempMove;
@@ -43,8 +41,8 @@ main(int argc, char *argv[]) {
 
       if (moves.curr >= 4) {
         if ((resultMove = valid_move(&moves)) != -1) {
+          dbg_print("MOVE(%d): ", resultMove);
 #ifdef DEBUG
-          printf("MOVE(%d): ", resultMove);
           moves_print(moves.moves);
 #endif
         }

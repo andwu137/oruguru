@@ -1,9 +1,21 @@
 #ifndef ORUGURU_H
 #define ORUGURU_H
 
+#include <assert.h>
 #include <raylib.h>
 #include <stddef.h>
 #include <stdint.h>
+
+// Helpers
+#ifdef DEBUG
+#define dbg_print printf
+#define dbg_puts puts
+#define dbg_assert assert
+#else
+#define dbg_print(...)
+#define dbg_puts(...)
+#define dbg_assert(_)
+#endif
 
 // Inputs
 enum InputType {
@@ -37,11 +49,8 @@ struct InputMap {
   }
 
 #define moves_print(m)                                                         \
-  printf("%3d %3d %3d %3d\n",                                                  \
-         ((uint8_t *)m)[0],                                                    \
-         ((uint8_t *)m)[1],                                                    \
-         ((uint8_t *)m)[2],                                                    \
-         ((uint8_t *)m)[3]);
+  printf("%3d %3d %3d %3d\n", ((uint8_t *)m)[0], ((uint8_t *)m)[1],            \
+         ((uint8_t *)m)[2], ((uint8_t *)m)[3]);
 
 const uint32_t VALID_MOVES[] = {
     // Move Right
