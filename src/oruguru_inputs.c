@@ -14,7 +14,7 @@ void input_map_push(struct InputMap *inputMap, struct InputMapping im);
 
 void valid_moves_default(input_type *validMoves);
 uint8_t get_move(input_type inputFlags);
-int8_t valid_move(struct Moves *moves);
+int8_t valid_move(struct Move *moves);
 
 /* FUNCTIONS */
 // INPUTS
@@ -95,9 +95,9 @@ get_move(input_type inputFlags) {
 }
 
 int8_t
-valid_move(struct Moves *moves) {
+valid_move(struct Move *move) {
   for (uint8_t i = 0; i < sizeof(VALID_MOVES) / sizeof(*VALID_MOVES); i++) {
-    if (VALID_MOVES[i] == moves->move) {
+    if (VALID_MOVES[i] == move->fullInputs) {
       return i;
     }
   }

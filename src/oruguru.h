@@ -68,13 +68,13 @@ const uint32_t VALID_MOVES[] = {
     moves_new(INPUT_SELECT, INPUT_LEFT, INPUT_LEFT, INPUT_LEFT),
 };
 
-struct Moves {
+struct Move {
   uint8_t curr;
   union {
-    uint32_t move; // WARN(andrew): if we add more moves
-                   // this could break due to sizing.
-                   // moves relies on uint8 being the size of `InputType`
-    input_type moves[4];
+    uint32_t fullInputs; // WARN(andrew): if we add more moves
+                         // this could break due to sizing.
+                         // moves relies on uint8 being the size of `InputType`
+    input_type inputs[4];
   };
 };
 

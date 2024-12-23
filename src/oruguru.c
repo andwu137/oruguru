@@ -14,7 +14,7 @@ main(int argc, char *argv[]) {
   struct InputMap inputMap;
   input_map_default(1 << 4, &inputMap);
 
-  struct Moves moves = {.curr = 0, .move = 0};
+  struct Move move = {.curr = 0, .fullInputs = 0};
   uint8_t tempMove;
   int8_t resultMove;
 
@@ -31,22 +31,22 @@ main(int argc, char *argv[]) {
       ClearBackground(RAYWHITE);
       DrawText("oruguru", 190, 200, 20, LIGHTGRAY);
 
-      dbg_print("Move #%d\n", moves.curr);
+      dbg_print("Move #%d\n", move.curr);
       input_flags_debug_draw(inputFlags);
       if ((tempMove = get_move(inputFlags)) != 0) {
-        moves.moves[moves.curr++] = tempMove;
+        move.inputs[move.curr++] = tempMove;
       } else {
         // TODO(andrew): moves_reset(moves);
       }
 
-      if (moves.curr >= 4) {
-        if ((resultMove = valid_move(&moves)) != -1) {
+      if (move.curr >= 4) {
+        if ((resultMove = valid_move(&move)) != -1) {
           dbg_print("MOVE(%d): ", resultMove);
 #ifdef DEBUG
-          moves_print(moves.moves);
+          moves_print(move.inputs);
 #endif
         }
-        moves_reset(moves);
+        moves_reset(move);
       }
     }
     EndDrawing();
