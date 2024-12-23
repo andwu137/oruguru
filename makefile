@@ -19,11 +19,11 @@ endif
 
 # Build Options
 ifeq ($(BUILD_MODE),DEBUG)
-    CFLAGS += -O1 -g -D_DEBUG
+    CCFLAGS += -O1 -g -DDEBUG
 endif
 
 ifeq ($(BUILD_MODE),RELEASE)
-	CFLAGS += -O2
+	CCFLAGS += -O2
 endif
 
 # Targets
