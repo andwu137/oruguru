@@ -25,12 +25,13 @@ void draw_health(Vector2 topLeft, int totalHearts, int heartsLeft) {
                     .y = topLeft.y + radius / 2 + margin};
 
   for (int i = 0; i < totalHearts; i++) {
-    center.x = center.x + 4.5 * radius;
     if (i < heartsLeft) {
       draw_heart(center, radius, RED);
     } else {
       draw_heart(center, radius, GRAY);
     }
+
+    center.x = center.x + 4.5 * radius;
   }
 }
 
@@ -90,16 +91,20 @@ void draw_mania_meter(int percentage) {
   int progressWidth = (width - 2 * margin) * p;
   char str[4];
   Vector2 topLeft = {.x = GetScreenWidth() / 2 - width / 2, .y = 10};
+  Color darkRed = (Color){.r = 205, .g = 25, .b = 35, .a = 255};
   itoa(percentage, str, 10);
   str[2] = '%';
 
   DrawRectangle(topLeft.x, topLeft.y, width, height, BLACK);
   DrawRectangle(topLeft.x + margin, topLeft.y + margin, width - 2 * margin,
                 height - 2 * margin, WHITE);
-  DrawRectangle(topLeft.x + margin, topLeft.y + margin, progressWidth,
-                height - 2 * margin, RED);
+  DrawRectangleGradientV(topLeft.x + margin, topLeft.y + margin, progressWidth,
+                         height - 2 * margin, RED, darkRed);
 
-  if (percentage >= 10) {
+  if (percentage >= 100) {
+    DrawText("MANIA!", topLeft.x + progressWidth / 2 - fontSize * 1.5,
+             topLeft.y + 2 * margin, fontSize, YELLOW);
+  } else if (percentage >= 10) {
     DrawText(str, topLeft.x + progressWidth / 2 - fontSize / 2,
              topLeft.y + 2 * margin, fontSize, YELLOW);
   }
@@ -117,21 +122,23 @@ int main(int argc, char *argv[]) {
 
   while (!WindowShouldClose()) {
     // Update
-    Vector2 v = {.x = 100, .y = 100};
+    Vector2 v = {.x = 25, .y = 25};
 
     // Draw
     BeginDrawing();
     {
       ClearBackground(DARKGRAY);
       DrawText("oruguru", 190, 200, 20, LIGHTGRAY);
-      draw_health(v, 3, 3);
+      draw_health(v, 3, 2);
       draw_mania_meter(percentage);
       draw_pause(200, 50, 20, 1);
     }
     EndDrawing();
 
     percentage++;
-    percentage = percentage % 101;
+    if (percentage >= 101) {
+      percentage = 0;
+    }
   }
 
   CloseWindow();
