@@ -89,7 +89,9 @@ input_flags_debug_draw(input_type inputFlags) {
 input_type
 get_move(input_type inputFlags) {
   for (uint8_t i = 0; i < sizeof(inputFlags) * 8; i++) {
-    if (inputFlags == (((input_type)1) << i)) {
+    if (inputFlags ==
+        (((input_type)1) << i)) { // NOTE(andrew): intentionally does not match
+                                  // multiple inputs at the same time
       return inputFlags;
     }
   }
