@@ -1,5 +1,5 @@
 ---
-AlwaysBreakAfterReturnType: All # BreakAfterReturnType: All
+BreakAfterReturnType: AllDefinitions
 
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: false
@@ -8,7 +8,7 @@ AllowShortLoopsOnASingleLine: false
 
 IndentCaseLabels: false
 
-BinPackArguments: false
+# BinPackArguments: false
 BinPackParameters: false
 
 BraceWrapping:
