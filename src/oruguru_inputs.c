@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 /* PROTOTYPES */
+
 void input_flags_debug_draw(input_type inputFlags);
 void input_map_read(struct InputMap *inputMap, input_type *inputFlags);
 void input_map_init(size_t initCap, struct InputMap *inputMap);
@@ -17,7 +18,9 @@ uint8_t get_move(input_type inputFlags);
 int8_t valid_move(struct Move *moves);
 
 /* FUNCTIONS */
+
 // INPUTS
+
 void
 input_map_init(size_t initCap, struct InputMap *inputMap) {
   inputMap->size = 0, inputMap->capacity = initCap,
@@ -31,18 +34,17 @@ input_map_init(size_t initCap, struct InputMap *inputMap) {
 void
 input_map_default(size_t initCap, struct InputMap *inputMap) {
   input_map_init(initCap, inputMap);
-  {
-    input_map_push(inputMap,
-                   ((struct InputMapping){.key = KEY_W, .input = INPUT_UP}));
-    input_map_push(inputMap,
-                   (struct InputMapping){.key = KEY_A, .input = INPUT_LEFT});
-    input_map_push(inputMap,
-                   (struct InputMapping){.key = KEY_S, .input = INPUT_DOWN});
-    input_map_push(inputMap,
-                   (struct InputMapping){.key = KEY_D, .input = INPUT_RIGHT});
-    input_map_push(inputMap, (struct InputMapping){.key = KEY_SPACE,
-                                                   .input = INPUT_SELECT});
-  }
+
+  input_map_push(inputMap,
+                 ((struct InputMapping){.key = KEY_W, .input = INPUT_UP}));
+  input_map_push(inputMap,
+                 (struct InputMapping){.key = KEY_A, .input = INPUT_LEFT});
+  input_map_push(inputMap,
+                 (struct InputMapping){.key = KEY_S, .input = INPUT_DOWN});
+  input_map_push(inputMap,
+                 (struct InputMapping){.key = KEY_D, .input = INPUT_RIGHT});
+  input_map_push(
+      inputMap, (struct InputMapping){.key = KEY_SPACE, .input = INPUT_SELECT});
 }
 
 void
@@ -83,6 +85,7 @@ input_flags_debug_draw(input_type inputFlags) {
 }
 
 // MOVES
+
 input_type
 get_move(input_type inputFlags) {
   for (uint8_t i = 0; i < sizeof(inputFlags) * 8; i++) {

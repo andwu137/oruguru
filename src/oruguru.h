@@ -17,11 +17,12 @@
 #define dbg_assert(_)
 #endif
 
-// Inputs
+//// Inputs
+
 /* The type that states the size of InputType */
 typedef uint8_t input_type;
 
-/* all game recognized actions */
+/* All game recognized actions */
 enum InputType {
   INPUT_UP = 1 << 0,
   INPUT_LEFT = 1 << 1,
@@ -30,13 +31,13 @@ enum InputType {
   INPUT_SELECT = 1 << 4,
 };
 
-/* to map key -> input */
+/* To map <key -> input> */
 struct InputMapping {
   KeyboardKey key;
   enum InputType input;
 };
 
-/* contains all mappings for game */
+/* Contains all keyboard mappings for game */
 struct InputMap {
   size_t size;
   size_t capacity;
@@ -44,6 +45,7 @@ struct InputMap {
 };
 
 // Moves
+
 #define moves_reset(m)                                                         \
   {                                                                            \
     m.curr = 0;                                                                \
@@ -67,7 +69,8 @@ static const uint8_t VALID_MOVES[][4] = {
     {INPUT_SELECT, INPUT_LEFT, INPUT_LEFT, INPUT_LEFT},
 };
 
-/* move is a set of inputs
+/* Move is a set of inputs
+ *
  * the inputs are stored first in at head
  */
 struct Move {
